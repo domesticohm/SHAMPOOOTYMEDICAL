@@ -238,6 +238,66 @@
       transform: scale(1.04);
     }
 
+    /* ── IMAGE CAROUSEL ── */
+    .carousel-slide {
+      display: none;
+      width: 100%;
+      height: 100%;
+    }
+
+    .carousel-slide.active {
+      display: block;
+      width: 100%;
+      height: 100%;
+    }
+
+    .carousel-btn {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      background: rgba(255, 255, 255, 0.75);
+      border: none;
+      border-radius: 50%;
+      width: 28px;
+      height: 28px;
+      cursor: pointer;
+      font-size: 1rem;
+      color: #1a3a52;
+      z-index: 3;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      line-height: 1;
+      transition: background 0.15s;
+      touch-action: manipulation;
+    }
+
+    .carousel-btn:hover { background: rgba(255, 255, 255, 0.97); }
+    .carousel-btn.prev { left: 6px; }
+    .carousel-btn.next { right: 6px; }
+
+    .carousel-dots {
+      position: absolute;
+      bottom: 8px;
+      left: 50%;
+      transform: translateX(-50%);
+      display: flex;
+      gap: 6px;
+      z-index: 3;
+    }
+
+    .carousel-dot {
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.45);
+      border: 1px solid rgba(90, 170, 220, 0.5);
+      cursor: pointer;
+      transition: background 0.15s;
+    }
+
+    .carousel-dot.active { background: #ffffff; }
+
     .card-body {
       padding: 18px 18px 20px;
       display: flex;
@@ -962,8 +1022,19 @@
     <section class="products">
 
       <div class="card">
-        <div class="card-img-wrap">
-          <img src="SITE GRAPHICS/FOLEYPENBRIGHT.jpg" alt="Foley Pen" />
+        <div class="card-img-wrap" id="penCarousel">
+          <div class="carousel-slide active">
+            <img src="SITE GRAPHICS/FOLEYPENBRIGHT.jpg" alt="Foley Pen" />
+          </div>
+          <div class="carousel-slide">
+            <img src="SITE GRAPHICS/CATHETERSTAND.jpg" alt="Foley Pen on Stand" />
+          </div>
+          <button class="carousel-btn prev" onclick="carouselPrev('penCarousel', event)">&#8249;</button>
+          <button class="carousel-btn next" onclick="carouselNext('penCarousel', event)">&#8250;</button>
+          <div class="carousel-dots">
+            <div class="carousel-dot active" onclick="carouselGo('penCarousel', 0)"></div>
+            <div class="carousel-dot" onclick="carouselGo('penCarousel', 1)"></div>
+          </div>
         </div>
         <div class="card-body">
           <span class="card-sku">SKU-FP001</span>
@@ -1420,6 +1491,32 @@
         typing.remove();
         appendMessage(getDennyResponse(text), false);
       }, 900 + Math.random() * 800);
+    }
+
+    // ── IMAGE CAROUSEL ──
+    function carouselGo(id, idx, e) {
+      if (e) e.stopPropagation();
+      var wrap = document.getElementById(id);
+      var slides = wrap.querySelectorAll('.carousel-slide');
+      var dots = wrap.querySelectorAll('.carousel-dot');
+      slides.forEach(function(s, i) { s.classList.toggle('active', i === idx); });
+      dots.forEach(function(d, i) { d.classList.toggle('active', i === idx); });
+    }
+
+    function carouselPrev(id, e) {
+      if (e) e.stopPropagation();
+      var wrap = document.getElementById(id);
+      var slides = wrap.querySelectorAll('.carousel-slide');
+      var current = Array.from(slides).findIndex(function(s) { return s.classList.contains('active'); });
+      carouselGo(id, (current - 1 + slides.length) % slides.length);
+    }
+
+    function carouselNext(id, e) {
+      if (e) e.stopPropagation();
+      var wrap = document.getElementById(id);
+      var slides = wrap.querySelectorAll('.carousel-slide');
+      var current = Array.from(slides).findIndex(function(s) { return s.classList.contains('active'); });
+      carouselGo(id, (current + 1) % slides.length);
     }
 
     function positionMobileDenny() {
