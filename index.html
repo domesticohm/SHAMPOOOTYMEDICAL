@@ -1,0 +1,1458 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Shampoooty Medical Solutions</title>
+  <meta property="og:title" content="Shampoooty Medical Solutions" />
+  <meta property="og:description" content="Clinical-Grade Collectibles" />
+  <meta property="og:image" content="https://shampoootymedical.com/og-image.png" />
+  <meta property="og:url" content="https://shampoootymedical.com" />
+  <meta property="og:type" content="website" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:image" content="https://shampoootymedical.com/og-image.png" />
+  <link rel="icon" type="image/png" sizes="32x32" href="SITE GRAPHICS/favicon-32.png" />
+  <link rel="icon" type="image/png" sizes="16x16" href="SITE GRAPHICS/favicon-16.png" />
+  <link rel="apple-touch-icon" sizes="180x180" href="SITE GRAPHICS/apple-touch-icon.png" />
+  <style>
+    *, *::before, *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: 'Segoe UI', Arial, sans-serif;
+      color: #1a3a52;
+      min-height: 100vh;
+    }
+
+    /* ── BACKGROUND ── */
+    .bg-overlay {
+      position: fixed;
+      inset: 0;
+      background-image: url('SITE GRAPHICS/BACKGROUND.jpg');
+      background-size: cover;
+      background-position: center;
+      z-index: 0;
+    }
+
+    /* ── LAYOUT ── */
+    .site-wrapper {
+      position: relative;
+      z-index: 1;
+      display: flex;
+      flex-direction: column;
+      min-height: 100vh;
+    }
+
+    /* ── HEADER ── */
+    header {
+      background: rgba(255, 255, 255, 0.82);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid rgba(90, 170, 220, 0.2);
+      padding: 18px 20px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    header img.logo {
+      width: min(400px, 80vw);
+      object-fit: contain;
+      pointer-events: none;
+      user-select: none;
+      -webkit-user-select: none;
+      -webkit-touch-callout: none;
+    }
+
+    /* ── NAV ── */
+    nav {
+      background: rgba(42, 95, 133, 0.88);
+      backdrop-filter: blur(8px);
+      border-bottom: 1px solid rgba(90, 170, 220, 0.25);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 28px;
+      padding: 11px 16px;
+      position: relative;
+      z-index: 100;
+    }
+
+    nav a {
+      color: rgba(220, 238, 252, 0.9);
+      text-decoration: none;
+      font-size: 0.76rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      transition: color 0.2s;
+      white-space: nowrap;
+      padding: 10px 0;
+      touch-action: manipulation;
+    }
+
+    nav a:hover { color: #ffffff; }
+
+    /* ── NAV DROPDOWN ── */
+    .nav-dropdown {
+      position: relative;
+    }
+
+    .nav-dropdown > button {
+      color: rgba(220, 238, 252, 0.9);
+      font-size: 0.76rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      cursor: pointer;
+      transition: color 0.2s;
+      user-select: none;
+      white-space: nowrap;
+      line-height: 1;
+      display: flex;
+      align-items: center;
+      background: none;
+      border: none;
+      padding: 10px 0;
+      font-family: inherit;
+      touch-action: manipulation;
+    }
+
+    .nav-dropdown.open > button { color: #ffffff; }
+
+
+    .dropdown-menu {
+      display: none;
+      position: absolute;
+      top: calc(100% + 11px);
+      left: 50%;
+      transform: translateX(-50%);
+      background: rgba(30, 70, 100, 0.97);
+      backdrop-filter: blur(10px);
+      border: 1px solid rgba(90, 170, 220, 0.25);
+      border-radius: 4px;
+      min-width: 160px;
+      z-index: 1000;
+      overflow: hidden;
+    }
+
+    @media (hover: hover) {
+      .nav-dropdown:hover .dropdown-menu { display: block; }
+      .nav-dropdown:hover > button { color: #ffffff; }
+    }
+
+    .nav-dropdown.open .dropdown-menu { display: block; }
+
+    .dropdown-menu a {
+      display: block;
+      padding: 12px 20px;
+      color: rgba(220, 238, 252, 0.9);
+      font-size: 0.72rem;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      text-decoration: none;
+      transition: background 0.15s, color 0.15s;
+      white-space: nowrap;
+    }
+
+    .dropdown-menu a.email-link {
+      text-transform: none;
+      letter-spacing: 0.04em;
+      font-size: 0.7rem;
+      white-space: normal;
+      word-break: break-all;
+    }
+
+    .dropdown-menu a:hover {
+      background: rgba(90, 170, 220, 0.2);
+      color: #ffffff;
+    }
+
+    /* ── HERO BAND ── */
+    .hero {
+      text-align: center;
+      padding: 40px 20px 28px;
+    }
+
+    .hero h1 {
+      font-size: clamp(0.75rem, 2.5vw, 1.1rem);
+      letter-spacing: 0.32em;
+      text-transform: uppercase;
+      color: #1a3a52;
+      font-weight: 300;
+    }
+
+    .hero .divider {
+      width: 48px;
+      height: 1px;
+      background: #5aade0;
+      margin: 14px auto 0;
+      opacity: 0.6;
+    }
+
+    /* ── PRODUCT GRID ── */
+    .products {
+      display: flex;
+      justify-content: center;
+      gap: 22px;
+      flex-wrap: wrap;
+      padding: 10px 20px 60px;
+    }
+
+    .card {
+      background: rgba(255, 255, 255, 0.86);
+      backdrop-filter: blur(10px);
+      border: 1px solid rgba(90, 170, 220, 0.28);
+      border-radius: 6px;
+      width: min(260px, calc(100vw - 40px));
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+      transition: transform 0.22s, box-shadow 0.22s;
+    }
+
+    .card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 10px 32px rgba(58, 139, 191, 0.22);
+    }
+
+    .card-img-wrap {
+      width: 100%;
+      aspect-ratio: 1 / 1;
+      overflow: hidden;
+      background: #daeef8;
+      position: relative;
+    }
+
+    .card-img-wrap img {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+      display: block;
+      cursor: zoom-in;
+      transition: transform 0.35s;
+    }
+
+    .card:hover .card-img-wrap img {
+      transform: scale(1.04);
+    }
+
+    .card-body {
+      padding: 18px 18px 20px;
+      display: flex;
+      flex-direction: column;
+      gap: 7px;
+      flex: 1;
+    }
+
+    .card-sku {
+      font-size: 0.61rem;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: #5aade0;
+    }
+
+    .card-name {
+      font-size: 1rem;
+      font-weight: 600;
+      color: #1a3a52;
+      letter-spacing: 0.05em;
+    }
+
+    .card-desc {
+      font-size: 0.75rem;
+      line-height: 1.58;
+      color: #3a6882;
+      flex: 1;
+    }
+
+    .card-footer {
+      padding: 0 18px 18px;
+      display: flex;
+      align-items: center;
+    }
+
+    .btn-order {
+      font-size: 0.68rem;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: #ffffff;
+      border: none;
+      background: #3a8bbf;
+      padding: 10px 22px;
+      border-radius: 3px;
+      cursor: pointer;
+      transition: background 0.2s;
+      touch-action: manipulation;
+    }
+
+    .btn-order:hover { background: #2a7aae; }
+
+    /* ── DENNY ASSISTANT BUTTON ── */
+    .denny-btn {
+      position: fixed;
+      bottom: 24px;
+      right: 20px;
+      z-index: 100;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 6px;
+      cursor: pointer;
+      background: none;
+      border: none;
+      padding: 0;
+      touch-action: manipulation;
+    }
+
+    .denny-btn img {
+      width: 64px;
+      height: 64px;
+      border-radius: 50%;
+      object-fit: cover;
+      box-shadow: 0 4px 18px rgba(58, 139, 191, 0.4);
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+
+    .denny-btn:hover img {
+      transform: scale(1.08);
+      box-shadow: 0 6px 24px rgba(58, 139, 191, 0.55);
+    }
+
+    .denny-label {
+      font-size: 0.6rem;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: #1a3a52;
+      background: rgba(255,255,255,0.82);
+      padding: 3px 8px;
+      border-radius: 20px;
+      backdrop-filter: blur(6px);
+      border: 1px solid rgba(90,170,220,0.3);
+    }
+
+    /* ── DENNY CHAT MODAL ── */
+    .denny-chat {
+      display: none;
+      position: fixed;
+      bottom: 110px;
+      right: 20px;
+      z-index: 150;
+      width: min(340px, calc(100vw - 32px));
+      background: rgba(20, 52, 76, 0.97);
+      backdrop-filter: blur(14px);
+      border: 1px solid rgba(90, 170, 220, 0.3);
+      border-radius: 12px;
+      overflow: hidden;
+      box-shadow: 0 16px 48px rgba(0,0,0,0.45);
+      flex-direction: column;
+    }
+
+    .denny-chat.open { display: flex; }
+
+    @media (max-width: 600px) {
+      .denny-chat {
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: auto;
+        width: 100%;
+        height: 100vh;
+        height: 100dvh;
+        border-radius: 0;
+        border: none;
+      }
+
+      .denny-chat-messages {
+        max-height: none;
+        flex: 1;
+        min-height: 0;
+      }
+
+      .denny-chat-input {
+        font-size: 16px;
+      }
+
+      .denny-chat-input-row {
+        flex-direction: column;
+        gap: 8px;
+        padding: 10px 12px;
+        padding-bottom: max(10px, env(safe-area-inset-bottom));
+      }
+
+      .denny-chat-input {
+        width: 100%;
+        font-size: 16px;
+      }
+
+      .denny-chat-send {
+        width: 100%;
+        padding: 13px;
+        font-size: 0.9rem;
+      }
+    }
+
+    .denny-chat-header {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 12px 14px;
+      background: rgba(42, 95, 133, 0.6);
+      border-bottom: 1px solid rgba(90,170,220,0.2);
+    }
+
+    .denny-chat-header img {
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      object-fit: cover;
+    }
+
+    .denny-chat-header-text {
+      flex: 1;
+    }
+
+    .denny-chat-header-text strong {
+      display: block;
+      color: #deeefb;
+      font-size: 0.82rem;
+      letter-spacing: 0.08em;
+    }
+
+    .denny-chat-header-text span {
+      font-size: 0.62rem;
+      color: rgba(184,220,240,0.6);
+      letter-spacing: 0.05em;
+    }
+
+    .denny-chat-close {
+      background: none;
+      border: none;
+      color: rgba(184,220,240,0.6);
+      font-size: 1.2rem;
+      cursor: pointer;
+      line-height: 1;
+      padding: 4px;
+      transition: color 0.15s;
+    }
+
+    .denny-chat-close:hover { color: #fff; }
+
+    .denny-chat-messages {
+      flex: 1;
+      padding: 14px;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      max-height: 280px;
+      overflow-y: auto;
+    }
+
+    .denny-msg {
+      display: flex;
+      gap: 8px;
+      align-items: flex-end;
+    }
+
+    .denny-msg img {
+      width: 28px;
+      height: 28px;
+      border-radius: 50%;
+      object-fit: cover;
+      flex-shrink: 0;
+    }
+
+    .denny-msg-bubble {
+      background: rgba(58, 139, 191, 0.22);
+      border: 1px solid rgba(90,170,220,0.2);
+      border-radius: 12px 12px 12px 2px;
+      padding: 9px 12px;
+      font-size: 0.78rem;
+      line-height: 1.5;
+      color: #d0eaf8;
+      max-width: 260px;
+    }
+
+    .user-msg {
+      flex-direction: row-reverse;
+    }
+
+    .user-msg .denny-msg-bubble {
+      background: rgba(42, 95, 133, 0.5);
+      border-radius: 12px 12px 2px 12px;
+      color: #e8f4fc;
+    }
+
+    .denny-typing .denny-msg-bubble {
+      letter-spacing: 0.1em;
+      color: rgba(184,220,240,0.5);
+      font-style: italic;
+    }
+
+    .denny-chat-input-row {
+      display: flex;
+      gap: 8px;
+      padding: 10px 12px;
+      border-top: 1px solid rgba(90,170,220,0.15);
+    }
+
+    .denny-chat-input {
+      flex: 1;
+      background: rgba(255,255,255,0.07);
+      border: 1px solid rgba(90,170,220,0.25);
+      border-radius: 6px;
+      padding: 8px 10px;
+      font-size: max(16px, 0.78rem);
+      color: #d0eaf8;
+      outline: none;
+      font-family: inherit;
+    }
+
+    .denny-chat-input::placeholder { color: rgba(184,220,240,0.35); }
+    .denny-chat-input:focus { border-color: rgba(90,170,220,0.5); }
+
+    .denny-chat-send {
+      background: #3a8bbf;
+      border: none;
+      border-radius: 6px;
+      color: #fff;
+      font-size: 0.78rem;
+      padding: 8px 14px;
+      cursor: pointer;
+      transition: background 0.2s;
+      touch-action: manipulation;
+    }
+
+    .denny-chat-send:hover { background: #2a7aae; }
+
+    .knowledge-heading {
+      font-size: 1.3rem;
+      font-weight: 700;
+      letter-spacing: 0.01em;
+    }
+
+    .knowledge-quote-block {
+      text-align: center;
+      padding-right: 15%;
+    }
+
+    .knowledge-footer {
+      display: flex;
+      align-items: center;
+      gap: 18px;
+      margin-top: 4px;
+    }
+
+    .half-star {
+      display: inline-block;
+      overflow: hidden;
+      width: 0.5em;
+      vertical-align: top;
+    }
+
+    .stars-caption {
+      font-size: 0.65rem;
+      color: #5aade0;
+      letter-spacing: 0.04em;
+      margin-top: 4px;
+    }
+
+    .knowledge-panel-wrap {
+      position: relative;
+    }
+
+    .denny-cutout {
+      position: absolute;
+      bottom: 0;
+      left: calc(40% - 40px);
+      width: 17%;
+      object-fit: contain;
+      object-position: bottom;
+      pointer-events: none;
+      user-select: none;
+      z-index: 2;
+    }
+
+    @media (max-width: 640px) {
+      .denny-cutout {
+        display: block;
+        left: auto;
+        right: 0;
+        width: 36%;
+      }
+
+      .knowledge-quote-block {
+        padding-right: 38%;
+      }
+    }
+
+    /* ── ABOUT PANELS ── */
+    .about-section {
+      padding: 0 20px 60px;
+      display: flex;
+      flex-direction: column;
+      gap: 22px;
+      max-width: 824px;
+      margin: 0 auto;
+      width: 100%;
+    }
+
+    .about-panel {
+      background: rgba(255, 255, 255, 0.88);
+      backdrop-filter: blur(10px);
+      border: 1px solid rgba(90, 170, 220, 0.28);
+      border-radius: 8px;
+      overflow: hidden;
+      display: flex;
+      min-height: 300px;
+    }
+
+    .about-panel-img {
+      flex: 0 0 44%;
+      background: #daeef8;
+      overflow: hidden;
+    }
+
+    .about-panel-img img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+      pointer-events: none;
+      user-select: none;
+    }
+
+    .about-panel-body {
+      flex: 1;
+      padding: 36px 32px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      gap: 12px;
+    }
+
+    .about-icon {
+      width: 56px;
+      height: 56px;
+      margin-bottom: 4px;
+    }
+
+    .about-panel-body h2 {
+      font-size: 1.05rem;
+      font-weight: 700;
+      color: #1a3a52;
+      letter-spacing: 0.02em;
+    }
+
+    .about-panel-body p {
+      font-size: 0.78rem;
+      line-height: 1.65;
+      color: #3a6882;
+    }
+
+    .about-quote {
+      font-size: 1.1rem;
+      font-style: italic;
+      color: #1a3a52;
+      line-height: 1.4;
+      margin: 4px 0 0;
+    }
+
+    .about-cite {
+      font-size: 0.72rem;
+      color: #5aade0;
+      letter-spacing: 0.08em;
+    }
+
+    .about-stars {
+      font-size: 1.6rem;
+      color: #f5a623;
+      letter-spacing: 0.05em;
+    }
+
+    @media (max-width: 640px) {
+      .about-panel {
+        flex-direction: column-reverse;
+        min-height: auto;
+      }
+
+      .about-panel.reverse {
+        flex-direction: column;
+      }
+
+      .about-panel-img {
+        flex: none;
+        width: 100%;
+        height: auto;
+      }
+
+      .about-panel-img img {
+        height: auto;
+        object-fit: contain;
+      }
+
+      .about-panel-body {
+        padding: 24px 20px;
+      }
+
+      .about-quote {
+        font-size: 0.95rem;
+      }
+    }
+
+    /* ── LIGHTBOX ── */
+    .lightbox {
+      display: none;
+      position: fixed;
+      inset: 0;
+      z-index: 200;
+      background: rgba(10, 28, 44, 0.82);
+      backdrop-filter: blur(6px);
+      align-items: center;
+      justify-content: center;
+      cursor: zoom-out;
+    }
+
+    .lightbox.open { display: flex; }
+
+    .lightbox img {
+      max-width: 92vw;
+      max-height: 88vh;
+      border-radius: 6px;
+      box-shadow: 0 20px 60px rgba(0,0,0,0.5);
+      object-fit: contain;
+    }
+
+    /* ── TESTIMONIAL ── */
+    .testimonial-section {
+      padding: 40px 20px 0;
+      max-width: 824px;
+      margin: 0 auto;
+      width: 100%;
+    }
+
+    .testimonial-card {
+      background: rgba(255, 255, 255, 0.86);
+      backdrop-filter: blur(10px);
+      border: 1px solid rgba(90, 170, 220, 0.28);
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      gap: 28px;
+      padding: 28px 32px;
+    }
+
+    .testimonial-photo {
+      flex-shrink: 0;
+      width: 110px;
+      height: 110px;
+      border-radius: 50%;
+      object-fit: cover;
+      border: 2px solid rgba(90, 170, 220, 0.35);
+      pointer-events: none;
+      user-select: none;
+    }
+
+    .testimonial-body {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .testimonial-quote {
+      font-size: 0.85rem;
+      line-height: 1.65;
+      color: #1a3a52;
+      font-style: italic;
+    }
+
+    .testimonial-cite {
+      font-size: 0.65rem;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: #5aade0;
+    }
+
+    @media (max-width: 600px) {
+      .testimonial-section {
+        padding: 32px 16px 0;
+      }
+
+      .testimonial-card {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 16px;
+        padding: 22px 20px;
+      }
+
+      .testimonial-photo {
+        width: 72px;
+        height: 72px;
+      }
+
+      .testimonial-quote {
+        font-size: 0.82rem;
+      }
+    }
+
+    /* ── TRUSTED BRANDS ── */
+    .trusted-brands {
+      padding: 40px 20px 48px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 16px;
+      max-width: 824px;
+      margin: 0 auto;
+      width: 100%;
+    }
+
+    .trusted-brands-label {
+      font-size: 0.72rem;
+      letter-spacing: 0.28em;
+      text-transform: uppercase;
+      color: #1a3a52;
+      font-weight: 400;
+      opacity: 0.75;
+    }
+
+    .trusted-brands img {
+      max-width: 100%;
+      width: 100%;
+      height: auto;
+      display: block;
+      object-fit: contain;
+      pointer-events: none;
+      user-select: none;
+    }
+
+    @media (max-width: 600px) {
+      .trusted-brands {
+        padding: 32px 16px 40px;
+        gap: 12px;
+      }
+    }
+
+    /* ── FOOTER ── */
+    footer {
+      margin-top: auto;
+      background: rgba(26, 58, 82, 0.9);
+      backdrop-filter: blur(8px);
+      border-top: 1px solid rgba(90, 170, 220, 0.2);
+      padding: 16px 20px;
+      display: flex;
+      align-items: center;
+      gap: 16px;
+    }
+
+    footer img.footer-logo {
+      height: 26px;
+      opacity: 0.75;
+      flex-shrink: 0;
+    }
+
+    footer span {
+      flex: 1;
+      text-align: center;
+      font-size: 0.62rem;
+      letter-spacing: 0.12em;
+      color: rgba(184, 220, 240, 0.7);
+      text-transform: uppercase;
+    }
+
+    /* ── MOBILE ── */
+    @media (max-width: 600px) {
+      nav {
+        gap: 18px;
+        padding: 10px 12px;
+      }
+
+      nav a, .nav-dropdown > button {
+        font-size: 0.7rem;
+        letter-spacing: 0.12em;
+      }
+
+      .hero {
+        padding: 28px 16px 20px;
+      }
+
+      .products {
+        padding: 8px 14px 48px;
+        gap: 16px;
+      }
+
+      .card {
+        width: 100%;
+      }
+
+      footer {
+        flex-direction: column;
+        gap: 10px;
+        text-align: center;
+        padding: 14px 16px;
+      }
+
+      footer img.footer-logo {
+        height: 20px;
+      }
+
+      .denny-btn img {
+        width: 88px;
+        height: 88px;
+      }
+
+      .dropdown-menu {
+        position: absolute;
+        left: 50%;
+        transform: translateX(-50%);
+        width: min(300px, calc(100vw - 24px));
+        min-width: 0;
+        max-width: none;
+      }
+
+      .dropdown-menu a {
+        white-space: normal;
+        word-break: break-word;
+        font-size: 0.68rem;
+        padding: 12px 16px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="bg-overlay"></div>
+
+  <div class="site-wrapper">
+
+    <header>
+      <img class="logo" src="SITE GRAPHICS/LOGO.png" alt="Shampooo Medical Logo" />
+    </header>
+
+    <nav>
+      <div class="nav-dropdown" id="contactDropdown">
+        <button onclick="toggleContact(event)">Contact</button>
+        <div class="dropdown-menu">
+          <a class="email-link" href="mailto:shampoooty@shampoooty.com">Shampoooty — shampoooty@shampoooty.com</a>
+          <a class="email-link" href="mailto:eag@gitlerand.com">GL&amp;_ — eag@gitlerand.com</a>
+        </div>
+      </div>
+      <div class="nav-dropdown" id="linksDropdown">
+        <button onclick="toggleLinks(event)">Links</button>
+        <div class="dropdown-menu">
+          <a href="https://shampoooty.com" target="_blank" rel="noopener">Shampoooty.com</a>
+          <a href="https://gitlerand.com" target="_blank" rel="noopener">Gitlerand.com</a>
+        </div>
+      </div>
+      <div class="nav-dropdown" id="followDropdown">
+        <button onclick="toggleFollow(event)">Follow</button>
+        <div class="dropdown-menu">
+          <a href="https://www.instagram.com/shampoooty/" target="_blank" rel="noopener">Shampoooty</a>
+          <a href="https://www.instagram.com/gitlerand/" target="_blank" rel="noopener">Gitler&amp;_</a>
+        </div>
+      </div>
+    </nav>
+
+    <section class="hero">
+      <h1>Clinical-Grade Collectibles</h1>
+      <div class="divider"></div>
+    </section>
+
+    <section class="products">
+
+      <div class="card">
+        <div class="card-img-wrap">
+          <img src="SITE GRAPHICS/FOLEYPENBRIGHT.jpg" alt="Foley Pen" />
+        </div>
+        <div class="card-body">
+          <span class="card-sku">SKU-FP001</span>
+          <div class="card-name">Foley Pen</div>
+          <p class="card-desc">Precision-engineered Foley pen for handwriting procedures. Powder coated aluminum. Accepts Lamy M22 refillable ink</p>
+        </div>
+        <div class="card-footer">
+          <button class="btn-order" onclick="window.location.href='https://shampoooty.com/products/foley-pen'">Buy Now</button>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-img-wrap">
+          <img src="SITE GRAPHICS/HEMATURIA.jpg" alt="Hematuria Shot Glass Set" />
+        </div>
+        <div class="card-body">
+          <span class="card-sku">SKU-HM002</span>
+          <div class="card-name">Hematuria Shot Glass Set</div>
+          <p class="card-desc">Calibrated shot glass set for alcohol specimen oral ingestion and visual grading assessments. Set of 4 glass shot glasses</p>
+        </div>
+        <div class="card-footer">
+          <button class="btn-order" onclick="window.location.href='https://shampoooty.com/products/hematuria-shot-glass-set-pre-order'">Buy Now</button>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-img-wrap">
+          <img src="SITE GRAPHICS/URINEBAG.jpg" alt="Urine Bag" />
+        </div>
+        <div class="card-body">
+          <span class="card-sku">SKU-UB003</span>
+          <div class="card-name">Urine Bag</div>
+          <p class="card-desc">Medium-capacity sterile urine drainage hand bag with anti-reflux zipper and graduated measurement markings.</p>
+        </div>
+        <div class="card-footer">
+          <button class="btn-order" onclick="window.location.href='https://shampoooty.com/products/medical-urine-bag-plus-clutch-novelty-medical-diagram-wristlet-pouch'">Buy Now</button>
+        </div>
+      </div>
+
+    </section>
+
+    <!-- ABOUT PANELS -->
+    <section class="about-section">
+
+      <!-- Panel 1: photo left, text right -->
+      <div class="about-panel">
+        <div class="about-panel-img">
+          <img src="SITE GRAPHICS/MRDENNY.jpg" alt="Quality testing lab" />
+        </div>
+        <div class="about-panel-body">
+          <div class="about-icon">
+            <svg viewBox="0 0 56 56" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <circle cx="28" cy="28" r="24" fill="#f5a623"/>
+              <polygon points="28,14 31.5,24 42,24 33.5,30.5 36.5,41 28,35 19.5,41 22.5,30.5 14,24 24.5,24" fill="#fff"/>
+            </svg>
+          </div>
+          <h2>Quality Tested</h2>
+          <p>Our advanced R&amp;D lab operates at the bleeding edge of non-biomedical product development and extraneous engineering. We maintain rigorous standards for what we call &ldquo;diagnostic accuracy and user-centric design through exhaustive longitudinal testing.&rdquo;</p>
+          <p>In 2025, our tenured Resident Denny completed an unprecedented analysis by ingesting 55 liters of Merlot &ldquo;hematuria samples,&rdquo; earning him an honorary doctorate from his neighbor, Dale. This intensive commitment to data collection ensures our final products meet the most demanding clinical benchmarks for safety, reliability, and professional performance.</p>
+        </div>
+      </div>
+
+      <!-- Panel 2: text left, photo right, denny cutout floating -->
+      <div class="about-panel reverse knowledge-panel-wrap">
+        <div class="about-panel-body knowledge-text">
+          <div class="about-icon">
+            <svg viewBox="0 0 56 56" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <rect x="6" y="38" width="44" height="10" rx="2" fill="#e8951a"/>
+              <rect x="6" y="38" width="8" height="10" rx="2" fill="#c97a10"/>
+              <rect x="13" y="38" width="1.5" height="10" fill="#e8951a"/>
+              <rect x="9" y="26" width="38" height="10" rx="2" fill="#f5a623"/>
+              <rect x="9" y="26" width="8" height="10" rx="2" fill="#d98b18"/>
+              <rect x="16" y="26" width="1.5" height="10" fill="#f5a623"/>
+              <rect x="12" y="14" width="32" height="10" rx="2" fill="#f9bc5a"/>
+              <rect x="12" y="14" width="8" height="10" rx="2" fill="#e8951a"/>
+              <rect x="19" y="14" width="1.5" height="10" fill="#f9bc5a"/>
+            </svg>
+          </div>
+          <h2 class="knowledge-heading">Unmatched Knowledge &amp; Experience</h2>
+          <p>Backed with &ldquo;medical&rdquo; professionals with over 1,500 years of combined experience, our Foley Pen, Hematuria Shot Glass Set, and Urine Bags have, in our view, set a new benchmark for uniquely designed, nonessential, clinically integrated products.</p>
+          <div class="knowledge-quote-block">
+            <p class="about-quote">&ldquo;No leaks in quality,<br>no blockage in creativity.&rdquo;</p>
+            <span class="about-cite">&ndash;Tenured Resident Denny</span>
+          </div>
+          <div class="knowledge-footer">
+            <div>
+              <div class="about-stars">&#9733;&#9733;<span class="half-star">&#9733;</span></div>
+              <div class="stars-caption">(Denny's Google rating)</div>
+            </div>
+          </div>
+        </div>
+        <div class="about-panel-img">
+          <img src="SITE GRAPHICS/DRPEN1.jpg" alt="Clinical expertise" />
+        </div>
+        <img class="denny-cutout" src="SITE GRAPHICS/drdenny1.png" alt="Dr. Denny" />
+      </div>
+
+    </section>
+
+    <!-- DENNY CHAT MODAL -->
+    <div class="denny-chat" id="dennyChat">
+      <div class="denny-chat-header">
+        <img src="SITE GRAPHICS/DENNY.png" alt="Denny" />
+        <div class="denny-chat-header-text">
+          <strong>Denny</strong>
+          <span>Virtual Assistant · Online</span>
+        </div>
+        <button class="denny-chat-close" onclick="closeDenny()" aria-label="Close">&times;</button>
+      </div>
+      <div class="denny-chat-messages" id="dennyMessages"></div>
+      <div class="denny-chat-input-row">
+        <input class="denny-chat-input" id="dennyInput" type="text" placeholder="Ask Denny anything…" autocomplete="off" />
+        <button class="denny-chat-send" onclick="sendToDenny()">Send</button>
+      </div>
+    </div>
+
+    <button class="denny-btn" title="Chat with Denny" onclick="openDenny()">
+      <img src="SITE GRAPHICS/DENNY.png" alt="Denny – Virtual Assistant" />
+      <span class="denny-label">Ask Denny</span>
+    </button>
+
+    <div class="testimonial-section">
+      <div class="testimonial-card">
+        <img class="testimonial-photo" src="SITE GRAPHICS/TESTIMONIAL.png" alt="Connie" />
+        <div class="testimonial-body">
+          <p class="testimonial-quote">&ldquo;I don&rsquo;t fully understand the science, but I understand the results. Buy the Catheter Pen. There&rsquo;s also a little hole on the tip where I connect my lanyard, cause I lose shit all the time.&rdquo;</p>
+          <span class="testimonial-cite">&mdash; Connie &nbsp;|&nbsp; Bartender, Rooster&rsquo;s Tavern</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="trusted-brands">
+      <span class="trusted-brands-label">Trusted Brands</span>
+      <img src="SITE GRAPHICS/TRUSTEDBRANDS.png" alt="Trusted Brands" />
+    </div>
+
+    <footer>
+      <img class="footer-logo" src="SITE GRAPHICS/GITLER.png" alt="Gitler & _" />
+      <span>&copy; 2026 Shampoooty Medical Supply &amp; GL&amp;_ &mdash; For Professional Use Only</span>
+    </footer>
+
+  </div>
+
+  <!-- LIGHTBOX -->
+  <div class="lightbox" id="lightbox" onclick="this.classList.remove('open')">
+    <img id="lightbox-img" src="" alt="" />
+  </div>
+
+  <script>
+    // ── LIGHTBOX ──
+    document.querySelectorAll('.card-img-wrap img').forEach(function(img) {
+      img.addEventListener('click', function() {
+        document.getElementById('lightbox-img').src = this.src;
+        document.getElementById('lightbox-img').alt = this.alt;
+        document.getElementById('lightbox').classList.add('open');
+      });
+    });
+
+    document.addEventListener('keydown', function(e) {
+      if (e.key === 'Escape') {
+        document.getElementById('lightbox').classList.remove('open');
+        closeDenny();
+      }
+    });
+
+    // ── NAV DROPDOWNS ──
+    var dropdowns = ['contactDropdown', 'linksDropdown', 'followDropdown'];
+
+    function closeOthers(keepId) {
+      dropdowns.forEach(function(id) {
+        if (id !== keepId) document.getElementById(id).classList.remove('open');
+      });
+    }
+
+    function toggleLinks(e) {
+      e.stopPropagation();
+      closeOthers('linksDropdown');
+      document.getElementById('linksDropdown').classList.toggle('open');
+    }
+
+    function toggleContact(e) {
+      e.stopPropagation();
+      closeOthers('contactDropdown');
+      document.getElementById('contactDropdown').classList.toggle('open');
+    }
+
+    function toggleFollow(e) {
+      e.stopPropagation();
+      closeOthers('followDropdown');
+      document.getElementById('followDropdown').classList.toggle('open');
+    }
+
+    document.addEventListener('click', function(e) {
+      dropdowns.forEach(function(id) {
+        if (!document.getElementById(id).contains(e.target))
+          document.getElementById(id).classList.remove('open');
+      });
+    });
+
+    // ── DENNY CHAT ──
+    var dennyGreetings = [
+      "heyyy!! *knocks over specimen rack* oh THANK GOD ur here i've been so lonely. also i may have drunk like 14 hematuria samples since breakfast but thats NOT important right now. what can i do for ya",
+      "DENNY SPEAKING. *slowly slides down wall* i am COMPLETELY fine. the hematuria samples today were extra... flavorful?? anyway hi welcome how can i assist u",
+      "oh wow a customer!! *hiccup* sorry i've been on sample quality control all morning and i think the samples won. what do u need bestie",
+      "hello and welcome to shampooooty medical *tips over chair* im ur virtual assistant denny and i have consumed a frankly irresponsible number of hematuria specimens today. how may i direct ur call",
+      "*peers at screen with one eye closed* oh heyyy. yep. still here. still working. definitely havent been drinking from the sample trays again. ANYWAY. what can i help with"
+    ];
+
+    var dennyResponses = [
+      "oh GREAT question *leans on wall* i think the answer is... *pauses for 6 seconds*... yes. definitely yes. the hematuria sample i just had is really clouding my judgment but in a FUN way",
+      "okay so here's the thing *points at nothing* i used to know the answer to that. before sample number 19. now i just know that the room has too many corners. but u should buy the foley pen its GREAT",
+      "hmmmm *squints* that is a very good point and i want u to know i am taking it very seriously *sits on floor* the hematuria today was a 3+ on the visual grading scale which honestly explains a LOT about my afternoon",
+      "LISTEN. i went to medical supply school for this *drops clipboard* i am a PROFESSIONAL. a professional who has consumed approximately 11 oz of hematuria specimen today but still. very professional. what were we talking about",
+      "u know what i think about that?? *gestures broadly and knocks over a cup* i think... i think it's a FANTASTIC idea. almost as fantastic as the hematuria sample i had at 2pm. that one had real body to it",
+      "oh absolutely *nods very slowly* i completely agree. and i want u to know that my assessment is only SLIGHTLY influenced by the fact that ive been doing 'visual grading assessments' with my mouth since 11am",
+      "*stares at ur message for a long time* okay. okay i read it. im processing. the hematuria is making it hard to process things but i AM processing. my recommendation is: buy the urine bag. it's very chic",
+      "wow thats actually a really deep question *slides off chair* and i want to give it the attention it deserves as soon as i remember where my legs went. SAMPLE #22 was perhaps a mistake in hindsight",
+      "yes!! 100%!! *high fives the air* ur so smart. almost as smart as i was before i started 'quality testing' the hematuria samples. that was about 8 samples ago. good times. great memories. blurry memories",
+      "here is my official professional recommendation as ur virtual medical supply assistant: *leans in very close to camera* the foley pen. buy it. also can someone call my supervisor i think i need to go home",
+      "i've been thinking about ur question *stares at ceiling* and i think the real answer is inside all of us. like the hematuria sample is inside me right now. spiritually. and also literally. bout 16 oz worth",
+      "okay TECHNICALLY im not supposed to be ingesting the samples *falls into shelf* but the label says VISUAL GRADING and my eyes are IN my head so it counts. anyway ur question was very good i forgot what it was"
+    ];
+
+    var greetingUsed = false;
+
+    function randItem(arr) {
+      return arr[Math.floor(Math.random() * arr.length)];
+    }
+
+    function appendMessage(text, isUser) {
+      var msgs = document.getElementById('dennyMessages');
+      var row = document.createElement('div');
+      row.className = 'denny-msg' + (isUser ? ' user-msg' : '');
+      if (!isUser) {
+        var avatar = document.createElement('img');
+        avatar.src = 'SITE GRAPHICS/DENNY.png';
+        avatar.alt = 'Denny';
+        row.appendChild(avatar);
+      }
+      var bubble = document.createElement('div');
+      bubble.className = 'denny-msg-bubble';
+      bubble.textContent = text;
+      row.appendChild(bubble);
+      msgs.appendChild(row);
+      msgs.scrollTop = msgs.scrollHeight;
+      return row;
+    }
+
+    function openDenny() {
+      var chat = document.getElementById('dennyChat');
+      chat.classList.add('open');
+      if (!greetingUsed) {
+        greetingUsed = true;
+        setTimeout(function() {
+          appendMessage(randItem(dennyGreetings), false);
+        }, 400);
+      }
+      setTimeout(function() {
+        document.getElementById('dennyInput').focus();
+      }, 100);
+    }
+
+    function closeDenny() {
+      document.getElementById('dennyChat').classList.remove('open');
+    }
+
+    var dennyTopics = [
+      {
+        keys: ['foley', 'pen', 'ink', 'refill', 'lamy', 'aluminum', 'writing', 'write', 'pencil', 'ballpoint', 'fountain'],
+        responses: [
+          "oh yeah the foley pen — good call bringing that up. *nods seriously* powder coated aluminum, takes a lamy M22 refill, built for handwriting procedures. genuinely excellent instrument. i carry mine every day. actually i was using mine earlier to label sample cups — then i drank from the sample cups — but the pen performed perfectly throughout. no notes. u should get one.",
+          "right, the foley pen. *leans in* precision engineered. powder coated aluminum. lamy M22 ink refill. it writes smooth, it looks sharp, and it fits in a coat pocket which i know because mine has been in my coat pocket since tuesday. speaking of coats — did i ever tell u i had a full nasa flight suit? wouldnt let me personalize it. another grievance.",
+        ]
+      },
+      {
+        keys: ['hematuria', 'shot glass', 'shotglass', 'glass set', 'calibrated', 'grading', 'specimen', 'sample', 'drink', 'shot', 'drinking'],
+        responses: [
+          "oh the hematuria shot glass set. *pauses reverently* yeah. i hear u. set of 4 calibrated shot glasses — designed for visual grading and oral specimen assessment. i want to be transparent with u: i have used this product more than anyone on earth. 55 liters. some days i think about slowing down and then i think about the data and i dont. science requires commitment.",
+          "the shot glass set. *sits down slowly* four calibrated glasses. graduated for accuracy. built for exactly the kind of work i do in this lab every day. listen — when i was at nasa, everything was about precision instruments. i left nasa but i never left that mindset. thats why 55 liters. thats why this product. thats why me.",
+        ]
+      },
+      {
+        keys: ['urine bag', 'urine', 'bag', 'drainage', 'clutch', 'wristlet', 'pouch', 'zipper'],
+        responses: [
+          "the urine bag — yeah i hear that. *straightens up* medium capacity sterile drainage bag. anti-reflux zipper. graduated measurement markings so u know exactly what ur working with. i respect precision in all forms. actually that reminds me of the graduated markings on the hematuria shot glasses which i have also used extensively. consistency across the product line. thats intentional.",
+          "right right, the urine bag. *nods* sterile. anti-reflux. chic. the zipper on that thing is genuinely impressive. i once brought one to a cookout — not for medical purposes, just as a conversation piece — and honestly it started the best conversation of the night. better than when i told people i used to be an astronaut. though that also goes well eventually.",
+        ]
+      },
+      {
+        keys: ['price', 'cost', 'how much', 'expensive', 'cheap', 'money', 'dollar', 'pay', 'afford', 'pricing', 'charge', 'fee', 'worth'],
+        responses: [
+          "totally fair question on pricing. *takes a breath* so the honest answer is — hit the Buy Now button on any product card and itll take u straight to the store with all the details. i would give u numbers from memory but my memory is currently operating at about 60 percent. sample 17 was this morning. connie always says write things down, denny. she is right. she is usually right.",
+          "yeah pricing — good instinct to ask. *holds up a finger* the most accurate place for that is the product pages themselves — click Buy Now and it goes right there. i used to be good with numbers. nasa required it. but that was before the lab, before the samples, before the beautiful fog of it all. the store knows. trust the store.",
+        ]
+      },
+      {
+        keys: ['buy', 'order', 'purchase', 'shop', 'cart', 'checkout', 'how do i get', 'where can i', 'get one', 'want one', 'want to get', 'how to order', 'add to'],
+        responses: [
+          "oh yeah ordering — super easy. *steadies himself* hit the Buy Now button on the product card, it takes u right to shampoooty.com. straightforward checkout. i have personally completed this process on multiple occasions at varying levels of sample consumption and it has never failed me. that is a genuine product endorsement from a genuine person.",
+          "great instinct. *points toward screen* Buy Now on the card, straight to checkout. done. i once ordered something online while listening to back in black at high volume and processing sample 14 simultaneously. went through without a hitch. if i can do it, anyone can. that is the bar. i am the bar.",
+        ]
+      },
+      {
+        keys: ['ship', 'shipping', 'delivery', 'deliver', 'arrive', 'how long', 'when will'],
+        responses: [
+          "shipping — yeah i want to be helpful here. *thinks carefully* the honest move is to email shampoooty@shampoooty.com for the exact timeline because i dont want to give u wrong info. my sense of time has been altered since i started living in the lab permanently. connie says im in a time bubble. she might be right. the email people are definitely right.",
+          "ok so for shipping specifics — reach out to shampoooty@shampoooty.com. *nods* they have the actual numbers and timelines. i have a rough sense of time but rough is the key word there. when ur three meals a day are all in the same building and ur smoke break is in the parking lot, the days start to blend. beautiful but disorienting. email them.",
+        ]
+      },
+      {
+        keys: ['contact', 'email', 'reach out', 'talk to', 'human', 'real person', 'support', 'help me', 'speak to', 'message', 'call', 'reach', 'assistance', 'customer'],
+        responses: [
+          "yeah absolutely — if u need a real human, *nods earnestly* shampoooty@shampoooty.com is ur move for general stuff, and eag@gitlerand.com for anything gitler and underscore related. both great people. much more coherent than me. i mean i am trying but i had 18 samples before noon and connie already texted twice asking if i ate a real lunch. i did not.",
+          "of course — *finds balance* for direct contact its shampoooty@shampoooty.com or eag@gitlerand.com. reach out and they will sort u out properly. i want to help but im the virtual assistant who lives in the lab full time and considers a smoke break a social event. they have more to offer logistically. i have more to offer emotionally.",
+        ]
+      },
+      {
+        keys: ['who are you', 'who r u', 'who is denny', 'what are you', 'your name', 'ur name', 'about you', 'introduce', 'what do you do', 'your job', 'ur job', 'are u a'],
+        responses: [
+          "oh good question — im denny. *straightens coat* virtual assistant and tenured resident here at shampoooty medical solutions. officially i handle customer questions. unofficially i am also the lead quality tester for the hematuria shot glass set, which is a role i gave myself. 55 liters in. former nasa astronaut before the pompadour situation. wife connie tends bar at rooster's tavern. life is full.",
+          "right so — *clears throat* im denny. the virtual assistant. i live here full time which started as temporary and became permanent in a way nobody planned but everyone accepted. i answer questions, i test products, i eat three meals a day, i take my smoke break, i listen to AC/DC, and i miss denny jr every single day that dog doesnt visit. thats me. thats the whole picture.",
+        ]
+      },
+      {
+        keys: ['quality', 'test', 'tested', 'reliable', 'legit', 'real', 'safe', 'trust', 'works'],
+        responses: [
+          "quality — yeah. *gets serious for a moment* this is something i care about deeply. our R&D process is rigorous. genuine clinical benchmarks. i was involved in testing personally — specifically the hematuria shot glass set which i tested to a degree that some people in this building consider excessive but i consider thorough. 55 liters thorough. u can trust these products.",
+          "i hear u on quality and i want u to know that question matters here. *nods slowly* the lab standard we operate at is not casual. when i was at nasa they had zero tolerance for corners being cut and i brought that same energy to shampoooty medical. granted nasa also had rules about hair and eyewear that i disagreed with, but the quality standard — that part i kept.",
+        ]
+      },
+      {
+        keys: ['return', 'refund', 'exchange', 'broken', 'wrong item', 'issue', 'problem', 'complaint'],
+        responses: [
+          "oh i hear that — if something went wrong, that matters and we want to fix it. *leans forward* email shampoooty@shampoooty.com and they will take care of u. they are responsive and solution-oriented. i would personally step in but im a permanent lab resident with limited logistical reach and sample 21 in my system. they are better positioned. u will be taken care of.",
+          "yeah that sounds frustrating and i want u to know ur being heard. *puts hand on table* reach out to shampoooty@shampoooty.com — they handle this well and they will make it right. i always say connie is the one u call when something needs fixing and shampoooty@shampoooty.com is the professional equivalent of connie. high praise. i mean that.",
+        ]
+      },
+      {
+        keys: ['instagram', 'follow', 'social media', 'social', 'insta', '@'],
+        responses: [
+          "oh yeah — *points up at the Follow menu* both shampoooty and gitlerand have instagrams. great content on both. the Follow button in the nav takes u right there. i personally dont have social media because connie said it would stress me out and she was correct the one time i tried. but the brands are good. follow them.",
+          "yes — follow both!! shampoooty and gitlerand on instagram. *thumbs up* honestly better content than anything i would post. my instagram would just be denny jr photos and grilling updates and maybe one blurry photo of a lake. actually that sounds fine but connie already vetoed it. go follow the brands instead.",
+        ]
+      },
+      {
+        keys: ['hello', 'hi', 'hey', 'sup', 'yo', 'howdy', 'greetings', 'good morning', 'good afternoon', 'good evening', 'hiya', 'whats up', 'what up', 'wsp', 'helo', 'heyyy'],
+        responses: [
+          "hey!! *looks up from clipboard* glad ur here. im denny — virtual assistant, lab permanent resident, former astronaut. been a full day already and its not over. what can i do for u. i am focused. i am present. sample 14 was an hour ago and i am still very much here.",
+          "oh hey — welcome. *sets something down carefully* im denny. i work here and also live here which is a whole thing but honestly fine. three meals, smoke break, good life. what brings u in today. i got time. i always have time. this is my home.",
+        ]
+      },
+      {
+        keys: ['hot dog', 'hotdog', 'baseball', 'game', 'ballpark', 'stadium'],
+        responses: [
+          "oh man — *pauses and gets a faraway look* yeah. baseball. look i have been to nasa. i have been to space training. nothing — and i mean nothing — compares to eating a hot dog at a ballpark. the mustard. the crowd. the fact that ur just a person in a seat with a hot dog and nothing is expected of u. i ate four in one game once. connie was there. she understood.",
+          "right so baseball — *sits down* i want u to know i take this seriously. hot dogs at a ballpark are a spiritual experience. i have thought about this a lot while processing samples in the lab. when i was at nasa they had nutrition guidelines. no ballpark hot dogs. that was problem number two with nasa. problem number one was the pompadour thing.",
+        ]
+      },
+      {
+        keys: ['denny jr', 'dog', 'pet', 'puppy', 'mutt', 'boy or girl', 'boy or a girl'],
+        responses: [
+          "denny jr. *exhales slowly* my dog. absolute mutt — no identifiable breed, no confirmed gender. we have been together long enough that it doesnt matter. what matters is denny jr is always happy to see me and i am always happy to see denny jr and the gender question just kind of floats there between us, unaddressed, peacefully.",
+          "oh — denny jr. *brightens up immediately* best dog. comes to visit on weekends. i always make sure to have something good going — maybe the grill is on, maybe theres a lake nearby if we drive. denny jr loves a good outdoor situation. do u have a dog? because if not, i have a lot of feelings about this and i would love to share them.",
+        ]
+      },
+      {
+        keys: ['connie', 'girlfriend', 'wife', 'roosters', 'rooster', 'tavern', 'bartender', 'married', 'spouse', 'partner'],
+        responses: [
+          "connie. *gets quiet for a second* my wife. bartends at rooster's tavern. smartest person in any room she walks into. she got me into Rush — through a whole situation involving the bassist that i wont fully detail, but the short version is: bassist moved on, i walked in, and i have been a Rush fan and a husband ever since. worked out for everyone. except possibly the bassist.",
+          "oh — connie. *leans back* yeah. she tends bar at rooster's tavern and she is the reason i am still a functioning person. she once made me a drink called 'the denny' and when i asked what was in it she said 'its better if u dont know.' i married her three months later. instinct was correct.",
+          "connie. *nods slowly* my wife. rooster's tavern. best bartender alive. she has a complicated Rush history that ultimately led her to me which i consider the greatest outcome of any situation involving a bass player in rock history. i always tip 40 percent when i visit. she cuts me off anyway. because she cares. thats love.",
+        ]
+      },
+      {
+        keys: ['lake', 'rock', 'skipping', 'skip', 'grilling', 'grill', 'burger', 'burgers', 'chips', 'baked beans', 'pickle', 'beer', 'outdoors', 'outside'],
+        responses: [
+          "ok yeah — *stares into the middle distance* clear lake. cold beer. rocks to skip. burger on the grill with chips and baked beans and a pickle on the side. that is the whole picture. that is what peace looks like. i go there in my head sometimes when the sample count gets high. i went there mentally around sample 19 today. helped.",
+          "right — outdoor stuff. *exhales* skipping rocks on a clear lake is something i think about more than is probably normal for a lab resident. theres a technique to it. wrist angle. flat stone. low trajectory. when i was training at nasa they talked about physics constantly but nobody once applied it to rock skipping. missed opportunity. i figured it out myself.",
+        ]
+      },
+      {
+        keys: ['popcorn', 'pop corn', 'snack', 'snacks'],
+        responses: [
+          "popcorn. *stops everything* yeah. buttered. salted. big bucket. i dont make apologies for how seriously i take this. i eat popcorn at the movies, at home, at the ballpark — actually the ballpark is perfect because u have the hot dog AND the popcorn and ur just completely covered. connie once brought a bag to the lab and i was useless for 20 minutes. worth it.",
+          "oh u brought up popcorn. *looks around for some* thats my thing. perfectly salted, warm, in a volume that other people might call excessive but i call thorough. same standard i apply to hematuria sample testing. excellence in all areas. the lab has chips sometimes but its not the same. do u want to talk about why popcorn is better than chips? because i have thoughts.",
+        ]
+      },
+      {
+        keys: ['nasa', 'astronaut', 'space', 'rocket', 'helmet', 'pompadour', 'hair', 'sunglasses', 'fired', 'retire', 'retired', 'glasses', 'hairstyle', 'before this', 'used to', 'previous job', 'career', 'past'],
+        responses: [
+          "nasa. *long pause* yeah. i was an astronaut. genuinely. trained, cleared, the whole thing. and they let me go — and i want u to really sit with this — because my pompadour was too fluffy to fit inside the space helmet. thats the official reason. the other reason is they wouldnt let me wear my sunglasses on the mission. IN SPACE. where the sun is unfiltered and literally right there. i maintain i was correct. they maintain otherwise. here i am.",
+          "my nasa chapter. *shakes head slowly* i gave everything to that program. everything except the pompadour, which i refused to flatten, and the sunglasses, which i refused to remove. they called it a safety issue. i called it personal expression. irreconcilable differences. so now i live in a lab and drink hematuria samples and honestly — *looks around* — life is not bad. different, but not bad.",
+        ]
+      },
+      {
+        keys: ['live', 'where do you live', 'home', 'house', 'permanent', 'resident', 'lab', 'stay', 'sleep', 'meals', 'food', 'eat', 'smoke', 'smoke break', 'happy', 'satisfied', 'where are you', 'where u', 'daily', 'routine', 'day like', 'typical'],
+        responses: [
+          "oh yeah so — i live here. *gestures around* the lab. full time. permanent resident. it started as an extended work situation and then became just... the situation. and here is the thing — im happy. genuinely. three square meals, smoke break, connie visits, denny jr on weekends. i grill when i can get outside. i have AC/DC and Rush on rotation. what more is there.",
+          "my daily routine. *thinks about it* wake up, first meal, sample work, smoke break, second meal, more samples, maybe some virtual assistant duties — like right now, talking to u, which i enjoy — third meal, wind down. if it sounds simple thats because it is. connie says i have achieved what most people spend their whole lives looking for. i think she meant it as a compliment.",
+        ]
+      },
+      {
+        keys: ['music', 'acdc', 'ac dc', 'ac/dc', 'rush', 'band', 'rock', 'concert', 'bass', 'bassist', 'guitar', 'song', 'listen', 'favorite band', 'favourite band'],
+        responses: [
+          "music — ok. *gets focused* two bands. AC/DC and Rush. thats the list. everything else exists but those are the pillars. i listen to back in black when i need to process fast and i listen to rush when i need to think. connie got me into rush through a specific situation involving the bassist — she used to be his side girl, he moved on, i was there. beautiful outcome for me personally. also for rush appreciation.",
+          "right — so music. *sits up straight* AC/DC and Rush. non-negotiable. i once ran three back in black sessions during a single sample processing block and the output was extraordinary. unverified correlation but i believe it. and Rush — listen. neil peart is an argument for the existence of something greater than all of us. connie knew the bassist personally. that story ends with me. i win.",
+          "oh man music — *leans in* thats a topic. AC/DC first — highway to hell, back in black, thunderstruck, these are not songs these are events. and Rush — 2112, tom sawyer, YYZ — the bass on those tracks is extraordinary which is interesting because the bassist is the reason i have a wife. he moved on from connie, i moved in, she brought Rush with her. greatest trade in the history of relationships.",
+        ]
+      },
+      {
+        keys: ['tell me about yourself', 'tell me more', 'backstory', 'background', 'life story', 'history', 'fun fact', 'interesting'],
+        responses: [
+          "oh — *takes a breath* ok. former nasa astronaut. let go due to pompadour volume and sunglasses policy. currently permanent resident of this lab — three meals, smoke break, happy as a clam. wife connie bartends at rooster's tavern, used to be a side girl for rush's bassist until he moved on and i walked in at exactly the right moment. dog denny jr. gender unknown. AC/DC and Rush only. skip rocks, grill burgers, chips, baked beans, pickle, cold beer. love popcorn and hot dogs at a baseball game. 55 liters of hematuria samples consumed for science. thriving.",
+          "the full picture. *settles in* i was at nasa. they had a problem with my pompadour and my sunglasses. i had a problem with their problem. we parted ways. i ended up here. somewhere in there i met connie — she came out of a rush bassist situation looking for something real and i had a pompadour and a genuine personality and it worked out. denny jr came later. gender still TBD. i listen to AC/DC when the samples get heavy. i think about clear lakes and grilled burgers when i need to reset. im a complicated person living a simple life and im ok with that.",
+        ]
+      },
+    ];
+
+    var dennyDeflections = [
+      "i hear u. *nods* that is genuinely interesting. hey — unrelated but have u ever eaten a hot dog at a baseball game? because i was just thinking about that and i feel like it connects somehow.",
+      "right right right. *thinks* i want to engage with that fully. actually — do u have a dog? because denny jr would have an opinion on this and i find myself wondering what it would be.",
+      "yeah i hear that. *pauses* that reminds me — have u ever tried to skip a rock on a perfectly still lake? there is a technique. wrist angle matters. i think about it more than is normal.",
+      "interesting point. *leans back* totally hear u. hey do u like Rush? the band? asking because connie got me into them through a complicated situation and i feel like it comes up more than people expect.",
+      "i receive that. *takes a breath* have u ever had to explain to someone why ur pompadour cannot be compressed into a helmet? because i have. it does not go well. but u feel very seen afterward.",
+      "yeah that tracks. *nods slowly* u know what that made me think of — grilling. specifically a burger with baked beans and a pickle on the side by a lake. is there a connection? maybe not. but the thought is there.",
+      "ok so i hear the question. *processes* and i want u to know i am holding it. speaking of holding things — is there popcorn nearby? it helps me think. if not, rephrase the question and i will do my best.",
+      "noted. *straightens up* i want to be helpful here. genuinely. also — what do u think about AC/DC? i ask because i find that ur answer tells me a lot about a person and i like to calibrate before i respond.",
+    ];
+
+    function getDennyResponse(userText) {
+      var t = userText.toLowerCase().trim();
+      for (var i = 0; i < dennyTopics.length; i++) {
+        var topic = dennyTopics[i];
+        for (var j = 0; j < topic.keys.length; j++) {
+          if (t.indexOf(topic.keys[j].toLowerCase()) !== -1) {
+            return randItem(topic.responses);
+          }
+        }
+      }
+      return randItem(dennyDeflections);
+    }
+
+    function sendToDenny() {
+      var input = document.getElementById('dennyInput');
+      var text = input.value.trim();
+      if (!text) return;
+      appendMessage(text, true);
+      input.value = '';
+
+      var typing = appendMessage('typing...', false);
+      typing.classList.add('denny-typing');
+
+      setTimeout(function() {
+        typing.remove();
+        appendMessage(getDennyResponse(text), false);
+      }, 900 + Math.random() * 800);
+    }
+
+    function positionMobileDenny() {
+      var wrap = document.querySelector('.knowledge-panel-wrap');
+      if (!wrap) return;
+      var photo = wrap.querySelector('.about-panel-img');
+      var cutout = wrap.querySelector('.denny-cutout');
+      if (!photo || !cutout) return;
+      if (window.innerWidth <= 640) {
+        cutout.style.bottom = photo.offsetHeight + 'px';
+      } else {
+        cutout.style.bottom = '';
+      }
+    }
+
+    window.addEventListener('load', positionMobileDenny);
+    window.addEventListener('resize', positionMobileDenny);
+
+    document.addEventListener('DOMContentLoaded', function() {
+      positionMobileDenny();
+      document.getElementById('dennyInput').addEventListener('keydown', function(e) {
+        if (e.key === 'Enter') sendToDenny();
+      });
+
+
+      if (window.visualViewport) {
+        window.visualViewport.addEventListener('resize', function() {
+          var msgs = document.getElementById('dennyMessages');
+          if (msgs) msgs.scrollTop = msgs.scrollHeight;
+        });
+      }
+    });
+  </script>
+
+</body>
+</html>
