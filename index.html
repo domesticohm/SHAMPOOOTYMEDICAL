@@ -1061,8 +1061,19 @@
       </div>
 
       <div class="card">
-        <div class="card-img-wrap">
-          <img src="SITE GRAPHICS/URINEBAG.jpg" alt="Urine Bag" />
+        <div class="card-img-wrap" id="bagCarousel">
+          <div class="carousel-slide active">
+            <img src="SITE GRAPHICS/URINGBAG1.jpg" alt="Urine Bag" />
+          </div>
+          <div class="carousel-slide">
+            <img src="SITE GRAPHICS/URINEBAG2.jpg" alt="Urine Bag Detail" />
+          </div>
+          <button class="carousel-btn prev" onclick="carouselPrev('bagCarousel', event)">&#8249;</button>
+          <button class="carousel-btn next" onclick="carouselNext('bagCarousel', event)">&#8250;</button>
+          <div class="carousel-dots">
+            <div class="carousel-dot active" onclick="carouselGo('bagCarousel', 0)"></div>
+            <div class="carousel-dot" onclick="carouselGo('bagCarousel', 1)"></div>
+          </div>
         </div>
         <div class="card-body">
           <span class="card-sku">SKU-UB003</span>
