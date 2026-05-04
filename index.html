@@ -1097,8 +1097,19 @@
       </div>
 
       <div class="card">
-        <div class="card-img-wrap">
-          <img src="SITE GRAPHICS/HEMATURIASET.jpg" alt="Hematuria Shot Glass Set" />
+        <div class="card-img-wrap" id="hemCarousel">
+          <div class="carousel-slide active">
+            <img src="SITE GRAPHICS/HEMATURIASET.jpg" alt="Hematuria Shot Glass Set" />
+          </div>
+          <div class="carousel-slide">
+            <img src="SITE GRAPHICS/HEMATURIA_BRIGHT.jpg" alt="Hematuria Shot Glass" />
+          </div>
+          <button class="carousel-btn prev" onclick="carouselPrev('hemCarousel', event)">&#8249;</button>
+          <button class="carousel-btn next" onclick="carouselNext('hemCarousel', event)">&#8250;</button>
+          <div class="carousel-dots">
+            <div class="carousel-dot active" onclick="carouselGo('hemCarousel', 0)"></div>
+            <div class="carousel-dot" onclick="carouselGo('hemCarousel', 1)"></div>
+          </div>
         </div>
         <div class="card-body">
           <span class="card-sku">SKU-HM002</span>
