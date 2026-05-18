@@ -1,0 +1,786 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Kidney Stone Plinko — Shampooooty Medical</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      background: radial-gradient(ellipse at center top, #2a0e1a 0%, #0d0508 100%);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 16px;
+      font-family: Georgia, 'Times New Roman', serif;
+      user-select: none;
+      -webkit-user-select: none;
+    }
+
+    #wrapper {
+      width: 360px;
+      max-width: 100%;
+    }
+
+    h1 {
+      color: #FFD6E0;
+      font-size: 20px;
+      text-align: center;
+      letter-spacing: 0.08em;
+      margin-bottom: 4px;
+      text-shadow: 0 0 30px rgba(255, 100, 140, 0.6);
+    }
+
+    .sub {
+      color: rgba(255, 150, 180, 0.55);
+      font-size: 10px;
+      text-align: center;
+      letter-spacing: 0.3em;
+      text-transform: uppercase;
+      margin-bottom: 14px;
+    }
+
+    #canvas-wrap {
+      position: relative;
+      width: 100%;
+      border-radius: 18px;
+      overflow: hidden;
+      box-shadow:
+        0 24px 80px rgba(0, 0, 0, 0.75),
+        0 0 40px rgba(200, 50, 100, 0.15),
+        inset 0 0 0 1px rgba(255, 100, 140, 0.12);
+    }
+
+    canvas {
+      display: block;
+      width: 100%;
+    }
+
+    #overlay {
+      position: absolute;
+      inset: 0;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      background: rgba(8, 2, 5, 0.9);
+    }
+
+    #overlay.show { display: flex; }
+
+    #result-card {
+      text-align: center;
+      color: #fff;
+      padding: 28px 20px;
+      width: 82%;
+    }
+
+    #result-eyebrow {
+      font-size: 10px;
+      letter-spacing: 0.3em;
+      text-transform: uppercase;
+      color: rgba(255, 200, 215, 0.55);
+      margin-bottom: 8px;
+    }
+
+    #result-title {
+      font-size: 22px;
+      font-weight: bold;
+      margin-bottom: 2px;
+    }
+
+    #result-amount {
+      font-size: 56px;
+      font-weight: bold;
+      line-height: 1;
+      margin: 10px 0 14px;
+    }
+
+    #result-msg {
+      font-size: 12px;
+      color: rgba(255, 200, 215, 0.72);
+      line-height: 1.65;
+      margin-bottom: 24px;
+      white-space: pre-line;
+    }
+
+    #result-code {
+      display: inline-block;
+      font-size: 13px;
+      letter-spacing: 0.15em;
+      padding: 5px 14px;
+      border-radius: 6px;
+      background: rgba(255, 255, 255, 0.07);
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      margin-bottom: 22px;
+      color: rgba(255, 230, 240, 0.9);
+    }
+
+    .btn-row {
+      display: flex;
+      gap: 10px;
+      justify-content: center;
+    }
+
+    .btn {
+      padding: 10px 22px;
+      border: none;
+      border-radius: 50px;
+      font-family: Georgia, serif;
+      font-size: 13px;
+      cursor: pointer;
+      transition: transform 0.12s;
+    }
+
+    .btn:active { transform: scale(0.95); }
+
+    #btn-again {
+      background: rgba(255, 255, 255, 0.09);
+      color: #FFD6E0;
+      border: 1px solid rgba(255, 255, 255, 0.18);
+    }
+
+    #btn-claim {
+      background: linear-gradient(135deg, #FF6B8A, #D63060);
+      color: #fff;
+      box-shadow: 0 4px 16px rgba(214, 48, 96, 0.45);
+    }
+
+    #btn-drop {
+      display: block;
+      margin: 14px auto 0;
+      padding: 13px 48px;
+      background: linear-gradient(135deg, #FF6B8A, #D63060);
+      color: #fff;
+      border: none;
+      border-radius: 50px;
+      font-family: Georgia, serif;
+      font-size: 16px;
+      letter-spacing: 0.04em;
+      cursor: pointer;
+      box-shadow: 0 6px 24px rgba(214, 48, 96, 0.5);
+      transition: transform 0.15s, box-shadow 0.15s;
+    }
+
+    #btn-drop:hover:not(:disabled) {
+      transform: translateY(-2px);
+      box-shadow: 0 10px 32px rgba(214, 48, 96, 0.65);
+    }
+
+    #btn-drop:disabled {
+      opacity: 0.4;
+      cursor: not-allowed;
+      transform: none;
+    }
+
+    #toast {
+      position: fixed;
+      bottom: 30px;
+      left: 50%;
+      transform: translateX(-50%) translateY(70px);
+      background: rgba(30, 10, 18, 0.96);
+      color: #FFD6E0;
+      border: 1px solid rgba(255, 100, 140, 0.3);
+      padding: 10px 22px;
+      border-radius: 50px;
+      font-size: 13px;
+      font-family: Georgia, serif;
+      transition: transform 0.28s ease;
+      pointer-events: none;
+      white-space: nowrap;
+    }
+
+    #toast.show { transform: translateX(-50%) translateY(0); }
+  </style>
+</head>
+<body>
+
+<div id="wrapper">
+  <h1>Kidney Stone Plinko</h1>
+  <p class="sub">A Shampooooty Medical Production</p>
+
+  <div id="canvas-wrap">
+    <canvas id="canvas" width="360" height="620"></canvas>
+
+    <div id="overlay">
+      <div id="result-card">
+        <div id="result-eyebrow">You landed on:</div>
+        <div id="result-title"></div>
+        <div id="result-amount"></div>
+        <div id="result-msg"></div>
+        <div id="result-code"></div>
+        <div class="btn-row">
+          <button class="btn" id="btn-again">Play Again</button>
+          <button class="btn" id="btn-claim">Copy Code</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <button id="btn-drop">Drop the Stone</button>
+</div>
+
+<div id="toast"></div>
+
+<script>
+// ── Constants ──────────────────────────────────────────────────────────────
+const W = 360, H = 620;
+const ZONE_H = 95;
+const ZONE_Y = H - ZONE_H;
+const PEG_TOP = 108;
+const PEG_BOT = ZONE_Y - 28;
+const ROW_COUNT = 9;
+
+// ── Zone definitions ───────────────────────────────────────────────────────
+const ZONES = [
+  {
+    key: 'pass',
+    x: 0, w: W / 3,
+    label: 'Pass\nNaturally',
+    title: 'Pass Naturally',
+    amount: '10% OFF',
+    code: 'PASSIT10',
+    color: '#2ECC71',
+    bg: 'rgba(46,204,113,0.12)',
+    msg: 'It passed on its own.\nOnly 14 days of agony.\nYou are a warrior. A legend.',
+    burst: ['#2ECC71', '#27AE60', '#A8F7C0', '#FFFFFF'],
+  },
+  {
+    key: 'shockwave',
+    x: W / 3, w: W / 3,
+    label: 'Shockwave\nSuccess',
+    title: 'Shockwave!',
+    amount: '15% OFF',
+    code: 'ZAPZAP15',
+    color: '#3498DB',
+    bg: 'rgba(52,152,219,0.12)',
+    msg: 'LITHOTRIPSY.\nThey will zap it into dust\nwith sound waves. Very metal.',
+    burst: ['#3498DB', '#1A78C2', '#74B9FF', '#FFD700', '#FFFFFF'],
+  },
+  {
+    key: 'surgery',
+    x: (W / 3) * 2, w: W / 3,
+    label: 'Surgery\nNeeded',
+    title: 'Surgery Needed',
+    amount: '25% OFF',
+    code: 'CUTCUT25',
+    color: '#E74C3C',
+    bg: 'rgba(231,76,60,0.12)',
+    msg: 'Welp. Surgery it is.\nThe good news? You scored\nour biggest discount. Worth it?',
+    burst: ['#E74C3C', '#B03A2E', '#FF8080', '#FFFF00', '#FFFFFF'],
+  },
+];
+
+// ── Audio ──────────────────────────────────────────────────────────────────
+let ac = null;
+
+function getAC() {
+  if (!ac) ac = new (window.AudioContext || window.webkitAudioContext)();
+  return ac;
+}
+
+function tone(freq, vol, dur, type = 'sine') {
+  try {
+    const a = getAC();
+    const osc = a.createOscillator();
+    const gain = a.createGain();
+    osc.connect(gain);
+    gain.connect(a.destination);
+    osc.type = type;
+    osc.frequency.setValueAtTime(freq, a.currentTime);
+    osc.frequency.exponentialRampToValueAtTime(freq * 0.35, a.currentTime + dur);
+    gain.gain.setValueAtTime(vol, a.currentTime);
+    gain.gain.exponentialRampToValueAtTime(0.0001, a.currentTime + dur);
+    osc.start(a.currentTime);
+    osc.stop(a.currentTime + dur + 0.01);
+  } catch (e) {}
+}
+
+function bounceSfx() {
+  tone(320 + Math.random() * 480, 0.08 + Math.random() * 0.09, 0.07 + Math.random() * 0.05);
+}
+
+function landSfx(key) {
+  if (key === 'pass') {
+    tone(523, 0.3, 0.22);
+    setTimeout(() => tone(659, 0.25, 0.28), 110);
+    setTimeout(() => tone(784, 0.2, 0.35), 240);
+  } else if (key === 'shockwave') {
+    tone(180, 0.45, 0.04, 'sawtooth');
+    tone(1100, 0.25, 0.08);
+    setTimeout(() => tone(880, 0.35, 0.14), 55);
+    setTimeout(() => tone(1320, 0.18, 0.22), 115);
+  } else {
+    tone(130, 0.5, 0.35, 'triangle');
+    setTimeout(() => tone(98, 0.4, 0.45, 'triangle'), 90);
+    setTimeout(() => tone(523, 0.18, 0.1), 210);
+  }
+}
+
+// ── State ──────────────────────────────────────────────────────────────────
+let gameState = 'idle'; // idle | dropping | landed
+let stone = null;
+let pegs = [];
+let particles = [];
+let trail = [];
+let result = null;
+let shake = 0;
+let tick = 0;
+
+// ── Pegs ───────────────────────────────────────────────────────────────────
+function buildPegs() {
+  pegs = [];
+  const rowH = (PEG_BOT - PEG_TOP) / (ROW_COUNT - 1);
+
+  for (let r = 0; r < ROW_COUNT; r++) {
+    const cols = r % 2 === 0 ? [90, 180, 270] : [45, 135, 225, 315];
+    const baseY = PEG_TOP + r * rowH;
+
+    for (const bx of cols) {
+      pegs.push({
+        x: bx + (Math.random() - 0.5) * 9,
+        y: baseY + (Math.random() - 0.5) * 9,
+        r: 8.5 + Math.random() * 4,
+        hue: 328 + Math.random() * 28,
+        sat: 38 + Math.random() * 26,
+        aspect: 0.80 + Math.random() * 0.38,
+        tilt: (Math.random() - 0.5) * 0.55,
+        wP: Math.random() * Math.PI * 2,
+        wS: 0.22 + Math.random() * 0.32,
+      });
+    }
+  }
+}
+
+// ── Stone ──────────────────────────────────────────────────────────────────
+function buildStone() {
+  const N = 14;
+  const pts = [];
+  for (let i = 0; i < N; i++) {
+    const a = (i / N) * Math.PI * 2;
+    pts.push([Math.cos(a) * (0.55 + Math.random() * 0.45), Math.sin(a) * (0.55 + Math.random() * 0.45)]);
+  }
+  return {
+    x: W / 2 + (Math.random() - 0.5) * 22,
+    y: 55,
+    vx: (Math.random() - 0.5) * 1.4,
+    vy: 1.8,
+    r: 9,
+    rot: Math.random() * Math.PI * 2,
+    rotV: (Math.random() - 0.5) * 0.17,
+    pts,
+    lastHit: -1,
+  };
+}
+
+// ── Physics update ─────────────────────────────────────────────────────────
+function update() {
+  tick += 0.016;
+
+  if (gameState === 'dropping' && stone) {
+    stone.vy = Math.min(stone.vy + 0.33, 13);
+    stone.x += stone.vx;
+    stone.y += stone.vy;
+    stone.rot += stone.rotV;
+
+    // Walls
+    if (stone.x < stone.r)       { stone.x = stone.r;       stone.vx = Math.abs(stone.vx) * 0.6; }
+    if (stone.x > W - stone.r)   { stone.x = W - stone.r;   stone.vx = -Math.abs(stone.vx) * 0.6; }
+
+    // Trail
+    trail.push({ x: stone.x, y: stone.y, a: 1 });
+    if (trail.length > 15) trail.shift();
+    trail.forEach(p => { p.a -= 0.055; });
+
+    // Minimum downward velocity (anti-stuck)
+    if (stone.vy < 0.8 && stone.y > PEG_TOP + 60) stone.vy = 1.8;
+
+    // Peg collisions
+    for (const peg of pegs) {
+      const dx = stone.x - peg.x;
+      const dy = stone.y - peg.y;
+      const d = Math.sqrt(dx * dx + dy * dy);
+      const minD = stone.r + peg.r;
+
+      if (d < minD && d > 0.1) {
+        const nx = dx / d, ny = dy / d;
+        const dot = stone.vx * nx + stone.vy * ny;
+
+        if (dot < 0 && tick - stone.lastHit > 0.04) {
+          const e = 0.50;
+          stone.vx += (-1 - e) * dot * nx + (Math.random() - 0.5) * 2.2;
+          stone.vy += (-1 - e) * dot * ny;
+          if (stone.vy < 1.5) stone.vy = 1.5;
+
+          const pen = minD - d + 0.5;
+          stone.x += nx * pen;
+          stone.y += ny * pen;
+          stone.lastHit = tick;
+
+          bounceSfx();
+
+          for (let i = 0; i < 5; i++) {
+            particles.push({
+              x: peg.x + nx * peg.r,
+              y: peg.y + ny * peg.r,
+              vx: nx * (1 + Math.random() * 2.5) + (Math.random() - 0.5) * 2.5,
+              vy: ny * (1 + Math.random() * 2.5) + (Math.random() - 0.5) * 2.5,
+              life: 1, r: 1.5 + Math.random() * 2,
+              col: `hsl(${peg.hue},${peg.sat + 20}%,76%)`,
+              type: 'spark',
+            });
+          }
+        }
+      }
+    }
+
+    // Landing
+    if (stone.y > ZONE_Y + stone.r) doLand();
+  }
+
+  // Particles
+  particles.forEach(p => {
+    p.x += p.vx;
+    p.y += p.vy;
+    p.vx *= 0.93;
+    p.vy += p.type === 'burst' ? 0.18 : 0.06;
+    p.life -= 0.032;
+  });
+  particles = particles.filter(p => p.life > 0);
+
+  shake *= 0.80;
+}
+
+function doLand() {
+  const sx = Math.max(0, Math.min(W - 1, stone.x));
+  const zone = ZONES.find(z => sx >= z.x && sx < z.x + z.w) || ZONES[1];
+
+  gameState = 'landed';
+  result = zone;
+  stone.vx = 0; stone.vy = 0;
+  stone.y = ZONE_Y + 22;
+
+  shake = zone.key === 'surgery' ? 15 : zone.key === 'shockwave' ? 9 : 4;
+
+  for (let i = 0; i < 50; i++) {
+    const a = Math.random() * Math.PI * 2;
+    const spd = 2.5 + Math.random() * 9;
+    particles.push({
+      x: stone.x, y: stone.y,
+      vx: Math.cos(a) * spd,
+      vy: Math.sin(a) * spd - 3.5,
+      life: 1, r: 2.5 + Math.random() * 5.5,
+      col: zone.burst[Math.floor(Math.random() * zone.burst.length)],
+      type: 'burst',
+    });
+  }
+
+  landSfx(zone.key);
+  setTimeout(() => showResult(zone), 950);
+}
+
+// ── Rendering ──────────────────────────────────────────────────────────────
+const canvas = document.getElementById('canvas');
+const ctx = canvas.getContext('2d');
+
+function drawBG() {
+  const g = ctx.createLinearGradient(0, 0, 0, H);
+  g.addColorStop(0, '#1c0912');
+  g.addColorStop(0.5, '#200d16');
+  g.addColorStop(1, '#130709');
+  ctx.fillStyle = g;
+  ctx.fillRect(0, 0, W, H);
+
+  // Breathing ureter silhouette
+  const breathe = Math.sin(tick * 0.38) * 4;
+  ctx.save();
+  ctx.globalAlpha = 0.052;
+  ctx.strokeStyle = '#FF5A8A';
+  ctx.lineWidth = 54;
+  ctx.lineCap = 'round';
+  ctx.beginPath();
+  ctx.moveTo(W / 2, 0);
+  ctx.bezierCurveTo(
+    W / 2 + 24 + breathe, H * 0.28,
+    W / 2 - 20 - breathe * 0.6, H * 0.58,
+    W / 2 + breathe * 0.8, ZONE_Y + 8
+  );
+  ctx.stroke();
+  ctx.restore();
+
+  // Vein texture
+  ctx.save();
+  ctx.globalAlpha = 0.022;
+  ctx.strokeStyle = '#FF6090';
+  ctx.lineWidth = 1;
+  for (let i = 0; i < 7; i++) {
+    const x0 = 28 + i * 48;
+    ctx.beginPath();
+    ctx.moveTo(x0, 40 + i * 12);
+    ctx.bezierCurveTo(x0 + 18, 180 + i * 8, x0 - 12, 360, x0 + 6, H - 120);
+    ctx.stroke();
+  }
+  ctx.restore();
+}
+
+function drawZones() {
+  for (let i = 0; i < ZONES.length; i++) {
+    const z = ZONES[i];
+
+    // Fill
+    const g = ctx.createLinearGradient(z.x, ZONE_Y, z.x, H);
+    g.addColorStop(0, z.bg);
+    g.addColorStop(1, 'rgba(0,0,0,0)');
+    ctx.fillStyle = g;
+    ctx.fillRect(z.x, ZONE_Y, z.w, ZONE_H);
+
+    // Top border glow
+    ctx.save();
+    ctx.shadowBlur = 10;
+    ctx.shadowColor = z.color;
+    ctx.strokeStyle = z.color;
+    ctx.lineWidth = 2.5;
+    ctx.beginPath();
+    ctx.moveTo(z.x, ZONE_Y);
+    ctx.lineTo(z.x + z.w, ZONE_Y);
+    ctx.stroke();
+    ctx.restore();
+
+    // Separator
+    if (i > 0) {
+      ctx.strokeStyle = 'rgba(255,255,255,0.07)';
+      ctx.lineWidth = 1;
+      ctx.beginPath();
+      ctx.moveTo(z.x, ZONE_Y);
+      ctx.lineTo(z.x, H);
+      ctx.stroke();
+    }
+
+    // Label
+    const cx = z.x + z.w / 2;
+    ctx.fillStyle = z.color;
+    ctx.font = 'bold 11px Georgia';
+    ctx.textAlign = 'center';
+    z.label.split('\n').forEach((line, li) => {
+      ctx.fillText(line, cx, ZONE_Y + 22 + li * 14);
+    });
+
+    // Discount
+    ctx.fillStyle = '#fff';
+    ctx.font = 'bold 17px Georgia';
+    ctx.fillText(z.amount, cx, ZONE_Y + 66);
+  }
+  ctx.textAlign = 'left';
+}
+
+function drawPeg(peg) {
+  const w = Math.sin(tick * peg.wS + peg.wP) * 1.3;
+  ctx.save();
+  ctx.translate(peg.x, peg.y);
+  ctx.rotate(peg.tilt);
+
+  // Glow halo
+  const halo = ctx.createRadialGradient(0, 0, peg.r * 0.5, 0, 0, peg.r * 2.4);
+  halo.addColorStop(0, `hsla(${peg.hue},${peg.sat + 15}%,72%,0.22)`);
+  halo.addColorStop(1, 'transparent');
+  ctx.beginPath();
+  ctx.ellipse(0, 0, peg.r * 2.4 + w, peg.r * 2.4 * peg.aspect, 0, 0, Math.PI * 2);
+  ctx.fillStyle = halo;
+  ctx.fill();
+
+  // Body
+  ctx.beginPath();
+  ctx.ellipse(0, 0, peg.r + w, peg.r * peg.aspect, 0, 0, Math.PI * 2);
+  const fill = ctx.createRadialGradient(-peg.r * 0.28, -peg.r * 0.35, 0.5, 0, 0, peg.r * 1.15);
+  fill.addColorStop(0, `hsl(${peg.hue},${peg.sat + 28}%,92%)`);
+  fill.addColorStop(0.5, `hsl(${peg.hue},${peg.sat + 12}%,68%)`);
+  fill.addColorStop(1, `hsl(${peg.hue - 8},${peg.sat - 6}%,42%)`);
+  ctx.fillStyle = fill;
+  ctx.fill();
+
+  // Specular
+  ctx.beginPath();
+  ctx.ellipse(-peg.r * 0.22, -peg.r * 0.3, peg.r * 0.38, peg.r * 0.21, -0.4, 0, Math.PI * 2);
+  ctx.fillStyle = 'rgba(255,255,255,0.44)';
+  ctx.fill();
+
+  ctx.restore();
+}
+
+function drawStone() {
+  if (!stone) return;
+  ctx.save();
+  ctx.translate(stone.x, stone.y);
+  ctx.rotate(stone.rot);
+
+  // Glow
+  const glow = ctx.createRadialGradient(0, 0, 1, 0, 0, stone.r * 3);
+  glow.addColorStop(0, 'rgba(255,225,100,0.55)');
+  glow.addColorStop(1, 'rgba(255,160,40,0)');
+  ctx.beginPath();
+  ctx.arc(0, 0, stone.r * 3, 0, Math.PI * 2);
+  ctx.fillStyle = glow;
+  ctx.fill();
+
+  // Jagged body
+  ctx.beginPath();
+  stone.pts.forEach(([px, py], i) => {
+    const x = px * stone.r, y = py * stone.r;
+    i === 0 ? ctx.moveTo(x, y) : ctx.lineTo(x, y);
+  });
+  ctx.closePath();
+
+  const fill = ctx.createRadialGradient(-stone.r * 0.28, -stone.r * 0.28, 0.5, 0, 0, stone.r);
+  fill.addColorStop(0, '#FFFDE7');
+  fill.addColorStop(0.42, '#FFF176');
+  fill.addColorStop(0.78, '#F9A825');
+  fill.addColorStop(1, '#E65100');
+  ctx.fillStyle = fill;
+  ctx.fill();
+  ctx.strokeStyle = 'rgba(160,78,0,0.32)';
+  ctx.lineWidth = 0.8;
+  ctx.stroke();
+
+  // Highlight
+  ctx.beginPath();
+  ctx.ellipse(-stone.r * 0.2, -stone.r * 0.26, stone.r * 0.32, stone.r * 0.18, -0.5, 0, Math.PI * 2);
+  ctx.fillStyle = 'rgba(255,255,255,0.65)';
+  ctx.fill();
+
+  ctx.restore();
+}
+
+function drawTrail() {
+  if (!stone) return;
+  trail.forEach(p => {
+    if (p.a <= 0) return;
+    ctx.save();
+    ctx.globalAlpha = Math.max(0, p.a) * 0.22;
+    ctx.beginPath();
+    ctx.arc(p.x, p.y, stone.r * 0.42, 0, Math.PI * 2);
+    ctx.fillStyle = '#F9A825';
+    ctx.fill();
+    ctx.restore();
+  });
+}
+
+function drawParticles() {
+  particles.forEach(p => {
+    if (p.life <= 0) return;
+    ctx.save();
+    ctx.globalAlpha = Math.min(1, p.life * 1.5);
+    ctx.fillStyle = p.col;
+
+    if (p.type === 'burst') {
+      ctx.translate(p.x, p.y);
+      ctx.rotate(p.life * 6.5);
+      const s = p.r * p.life;
+      ctx.beginPath();
+      for (let i = 0; i < 5; i++) {
+        const a = (i / 5) * Math.PI * 2 - Math.PI / 2;
+        const b = a + Math.PI / 5;
+        if (i === 0) ctx.moveTo(Math.cos(a) * s, Math.sin(a) * s);
+        else ctx.lineTo(Math.cos(a) * s, Math.sin(a) * s);
+        ctx.lineTo(Math.cos(b) * s * 0.42, Math.sin(b) * s * 0.42);
+      }
+      ctx.closePath();
+      ctx.fill();
+    } else {
+      ctx.beginPath();
+      ctx.arc(p.x, p.y, p.r * p.life, 0, Math.PI * 2);
+      ctx.fill();
+    }
+
+    ctx.restore();
+  });
+}
+
+function drawHUD() {
+  if (gameState === 'idle') {
+    ctx.save();
+    ctx.globalAlpha = 0.42 + Math.sin(tick * 2.6) * 0.28;
+    ctx.fillStyle = '#FFB3C6';
+    ctx.font = '11px Georgia';
+    ctx.textAlign = 'center';
+    ctx.fillText('▼  stone drops here  ▼', W / 2, 40);
+    ctx.restore();
+  }
+  ctx.textAlign = 'left';
+}
+
+function render() {
+  ctx.save();
+  if (shake > 0.6) {
+    ctx.translate(
+      (Math.random() - 0.5) * shake,
+      (Math.random() - 0.5) * shake * 0.55
+    );
+  }
+
+  drawBG();
+  drawZones();
+  pegs.forEach(drawPeg);
+  if (stone) { drawTrail(); drawStone(); }
+  drawParticles();
+  drawHUD();
+
+  ctx.restore();
+  update();
+  requestAnimationFrame(render);
+}
+
+// ── UI ─────────────────────────────────────────────────────────────────────
+function showResult(zone) {
+  document.getElementById('result-title').textContent = zone.title;
+  document.getElementById('result-title').style.color = zone.color;
+  document.getElementById('result-amount').textContent = zone.amount;
+  document.getElementById('result-amount').style.color = zone.color;
+  document.getElementById('result-msg').textContent = zone.msg;
+  document.getElementById('result-code').textContent = 'Code: ' + zone.code;
+  document.getElementById('overlay').classList.add('show');
+}
+
+function reset() {
+  stone = null;
+  trail = [];
+  particles = [];
+  result = null;
+  gameState = 'idle';
+  shake = 0;
+  document.getElementById('overlay').classList.remove('show');
+  document.getElementById('btn-drop').disabled = false;
+}
+
+function showToast(msg) {
+  const el = document.getElementById('toast');
+  el.textContent = msg;
+  el.classList.add('show');
+  setTimeout(() => el.classList.remove('show'), 2600);
+}
+
+document.getElementById('btn-drop').addEventListener('click', () => {
+  if (gameState !== 'idle') return;
+  try { getAC().resume(); } catch (e) {}
+  stone = buildStone();
+  gameState = 'dropping';
+  document.getElementById('btn-drop').disabled = true;
+});
+
+document.getElementById('btn-again').addEventListener('click', reset);
+
+document.getElementById('btn-claim').addEventListener('click', () => {
+  if (!result) return;
+  const code = result.code;
+  navigator.clipboard.writeText(code)
+    .then(() => showToast(`"${code}" copied to clipboard!`))
+    .catch(() => showToast(`Your code: ${code}`));
+});
+
+// ── Init ───────────────────────────────────────────────────────────────────
+buildPegs();
+render();
+</script>
+</body>
+</html>
