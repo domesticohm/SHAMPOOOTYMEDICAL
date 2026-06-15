@@ -853,6 +853,38 @@
       gap: 13px;
     }
 
+    .contact-type-row {
+      display: flex;
+      gap: 8px;
+    }
+
+    .contact-type-btn {
+      flex: 1;
+      background: rgba(255, 255, 255, 0.06);
+      border: 1px solid rgba(90, 170, 220, 0.22);
+      border-radius: 5px;
+      color: rgba(184, 220, 240, 0.65);
+      font-size: 0.7rem;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      padding: 9px 6px;
+      cursor: pointer;
+      font-family: inherit;
+      transition: background 0.15s, border-color 0.15s, color 0.15s;
+    }
+
+    .contact-type-btn:hover {
+      background: rgba(90, 170, 220, 0.12);
+      border-color: rgba(90, 170, 220, 0.45);
+      color: #d0eaf8;
+    }
+
+    .contact-type-btn.selected {
+      background: rgba(58, 139, 191, 0.25);
+      border-color: #3a8bbf;
+      color: #fff;
+    }
+
     .contact-field {
       display: flex;
       flex-direction: column;
@@ -1284,13 +1316,16 @@
       <div class="card">
         <div class="card-img-wrap" id="penCarousel">
           <div class="carousel-slide active">
-            <img src="SITE GRAPHICS/CATHETER123.png" alt="Foley Pen" />
-          </div>
-          <div class="carousel-slide">
-            <img src="SITE GRAPHICS/CATHETERSTAND.jpg" alt="Foley Pen on Stand" />
+            <img src="SITE GRAPHICS/FOLEYSQUARE.jpg" alt="Foley Pen" />
           </div>
           <div class="carousel-slide">
             <img src="SITE GRAPHICS/CATHETERPENPX.jpg" alt="Foley Pen" />
+          </div>
+          <div class="carousel-slide">
+            <img src="SITE GRAPHICS/FOLEYPENSQUARE.jpg" alt="Foley Pen" />
+          </div>
+          <div class="carousel-slide">
+            <img src="SITE GRAPHICS/CATHETERSTAND.jpg" alt="Foley Pen on Stand" />
           </div>
           <div class="carousel-slide">
             <img src="SITE GRAPHICS/PENDR.jpg" alt="Foley Pen" />
@@ -1302,12 +1337,12 @@
             <div class="carousel-dot" onclick="carouselGo('penCarousel', 1)"></div>
             <div class="carousel-dot" onclick="carouselGo('penCarousel', 2)"></div>
             <div class="carousel-dot" onclick="carouselGo('penCarousel', 3)"></div>
+            <div class="carousel-dot" onclick="carouselGo('penCarousel', 4)"></div>
           </div>
         </div>
         <div class="card-body">
           <span class="card-sku">SKU-FP001</span>
           <div class="card-name">Foley Pen</div>
-          <p class="card-desc">Precision-engineered collectible Foley pen for writing procedures. Machined from solid 7075 aluminum with a durable powder coated finish. Accepts refillable LAMY M22 ink cartridges.<br><br>Use promo code "UROLOGY" at checkout for 10% off!&nbsp; Pre-Orders ship approximately 30 days from date of purchase.</p>
         </div>
         <div class="card-footer">
           <button class="btn-order" onclick="window.location.href='https://shampoooty.com/products/foley-pen'">Buy Now</button>
@@ -1317,10 +1352,10 @@
       <div class="card">
         <div class="card-img-wrap" id="hemCarousel">
           <div class="carousel-slide active">
-            <img src="SITE GRAPHICS/HEMATURIASETCOLOR.jpg" alt="Hematuria Shot Glass Set" />
+            <img src="SITE GRAPHICS/HEMATURIALAB.jpg" alt="Hematuria Shot Glass" />
           </div>
           <div class="carousel-slide">
-            <img src="SITE GRAPHICS/HEMATURIALAB.jpg" alt="Hematuria Shot Glass" />
+            <img src="SITE GRAPHICS/HEMATURIASETCOLOR.jpg" alt="Hematuria Shot Glass Set" />
           </div>
           <div class="carousel-slide">
             <img src="SITE GRAPHICS/HEMATURIABLUR.jpg" alt="Hematuria Shot Glass Set" />
@@ -1336,7 +1371,6 @@
         <div class="card-body">
           <span class="card-sku">SKU-HM002</span>
           <div class="card-name">Hematuria Shot Glass Set</div>
-          <p class="card-desc">Calibrated shot glass set for alcohol specimen oral ingestion and visual grading assessments. Set of 4 hand painted 2 oz. shot glasses.<br><br>Use promo code "UROLOGY" at checkout for 10% off!&nbsp; Pre-Orders ship approximately 30 days from date of purchase.</p>
         </div>
         <div class="card-footer">
           <button class="btn-order" onclick="window.location.href='https://shampoooty.com/products/hematuria-shot-glass-set-pre-order'">Buy Now</button>
@@ -1369,7 +1403,6 @@
         <div class="card-body">
           <span class="card-sku">SKU-UB003</span>
           <div class="card-name">Urine Bags</div>
-          <p class="card-desc">Medium-capacity sterile urine drainage travel bag with anti-reflux zipper and graduated measurement markings.</p>
         </div>
         <div class="card-footer">
           <button class="btn-order" onclick="window.location.href='https://shampoooty.com/collections/urine-bags'">Buy Now</button>
@@ -1394,7 +1427,6 @@
         <div class="card-body">
           <span class="card-sku">SKU-CS004</span>
           <div class="card-name">Bladder Buddy Cystoscope</div>
-          <p class="card-desc">Bladder Buddy Cystoscopes.&nbsp; 15 x 4.5 x 6 in.&nbsp; Mixed media assemblage. Includes Bladder Buddy Cystoscope with product box.<br><br>Mounting brackets and hardware included. Individually numbered and signed. Ships within 30 days of purchase.<br><br>All sales are final.</p>
         </div>
         <div class="card-footer">
           <button class="btn-order" onclick="window.location.href='https://shampoooty.com/products/bladder-buddy-cystoscope'">Buy Now</button>
@@ -1541,6 +1573,10 @@
         <button class="contact-close" onclick="closeContactModal()" aria-label="Close">&times;</button>
       </div>
       <form class="contact-body" id="contactForm" onsubmit="submitContact(event)" novalidate>
+        <div class="contact-type-row">
+          <button type="button" class="contact-type-btn" onclick="selectInquiryType(this, 'Wholesale Inquiry')">Wholesale Inquiry</button>
+          <button type="button" class="contact-type-btn" onclick="selectInquiryType(this, 'Other')">Other</button>
+        </div>
         <div class="contact-field">
           <label for="contactName">Your Name</label>
           <input type="text" id="contactName" placeholder="Name" required />
@@ -1615,11 +1651,18 @@
     var EJS_TEMPLATE = 'template_tdri4ie';
     var _ejsInited   = false;
 
+    function selectInquiryType(btn, label) {
+      document.querySelectorAll('.contact-type-btn').forEach(function(b) { b.classList.remove('selected'); });
+      btn.classList.add('selected');
+      document.getElementById('contactSubject').value = label;
+    }
+
     function openContactModal(e) {
       if (e) e.preventDefault();
       document.getElementById('contactStatus').textContent = '';
       document.getElementById('contactStatus').className   = 'contact-status';
       document.getElementById('contactForm').reset();
+      document.querySelectorAll('.contact-type-btn').forEach(function(b) { b.classList.remove('selected'); });
       document.getElementById('contactSubmit').disabled    = false;
       document.getElementById('contactSubmit').textContent = 'Send Message';
       document.getElementById('contactOverlay').classList.add('open');
